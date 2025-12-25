@@ -40,7 +40,7 @@
 
 **Файлы, на которых проводилось тестирование:** доступны в [Issue #1: test_files](https://github.com/RUSLAN666888/FileCompressor/issues/1#issue-3762143846).
 
-**Документация:** 
+**Документация:** [Issue #2: Documentation](https://github.com/RUSLAN666888/FileCompressor/issues/2#issue-3762145410)
 
 ## Сборка через Visual Studio
 1.  Клонируйте репозиторий:
