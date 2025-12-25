@@ -3,6 +3,8 @@
 #include <array>
 #include <bitset>
 
+using namespace std;
+
 #pragma once
 class BitWriter
 {
@@ -119,4 +121,5 @@ public:
     }
 
 };
+
 
