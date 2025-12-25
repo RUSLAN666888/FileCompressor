@@ -3,13 +3,15 @@
 #include <array>
 #include <bitset>
 
+using namespace std;
+
 #pragma once
 class BitWriter
 {
 private:
-    ofstream& out; //выходной поток, куда будет производится запись
-    vector<unsigned char> fileBuffer; // Буфер для файла
-    unsigned char bitBuffer;               // Буфер для битов
+    ofstream& out; //ГўГ»ГµГ®Г¤Г­Г®Г© ГЇГ®ГІГ®ГЄ, ГЄГіГ¤Г  ГЎГіГ¤ГҐГІ ГЇГ°Г®ГЁГ§ГўГ®Г¤ГЁГІГ±Гї Г§Г ГЇГЁГ±Гј
+    vector<unsigned char> fileBuffer; // ГЃГіГґГҐГ° Г¤Г«Гї ГґГ Г©Г«Г 
+    unsigned char bitBuffer;               // ГЃГіГґГҐГ° Г¤Г«Гї ГЎГЁГІГ®Гў
     int bitCount;
     static constexpr size_t BUFFER_SIZE = 4096;
     unsigned char paddingBits;
@@ -19,11 +21,11 @@ public:
         fileBuffer.reserve(BUFFER_SIZE);
     }
 
-    //получение и сброс дополнительных битов, добавленных после вызова FlushFileBuffer()
+    //ГЇГ®Г«ГіГ·ГҐГ­ГЁГҐ ГЁ Г±ГЎГ°Г®Г± Г¤Г®ГЇГ®Г«Г­ГЁГІГҐГ«ГјГ­Г»Гµ ГЎГЁГІГ®Гў, Г¤Г®ГЎГ ГўГ«ГҐГ­Г­Г»Гµ ГЇГ®Г±Г«ГҐ ГўГ»Г§Г®ГўГ  FlushFileBuffer()
     unsigned char GetPaddingBits() { return paddingBits; }
     void ResetPaddingBits() { paddingBits = 0; }
 
-    //пишет один бит сначал в буфер
+    //ГЇГЁГёГҐГІ Г®Г¤ГЁГ­ ГЎГЁГІ Г±Г­Г Г·Г Г« Гў ГЎГіГґГҐГ°
     void WriteBit(bool bit)
     {
         bitBuffer = (bitBuffer << 1) | (bit ? 1 : 0);
@@ -31,12 +33,12 @@ public:
 
         if (bitCount == 8)
         {
-            // Добавляем байт в файловый буфер
+            // Г„Г®ГЎГ ГўГ«ГїГҐГ¬ ГЎГ Г©ГІ Гў ГґГ Г©Г«Г®ГўГ»Г© ГЎГіГґГҐГ°
             fileBuffer.push_back(bitBuffer);
             bitBuffer = 0;
             bitCount = 0;
 
-            // Если буфер заполнен, записываем в файл
+            // Г…Г±Г«ГЁ ГЎГіГґГҐГ° Г§Г ГЇГ®Г«Г­ГҐГ­, Г§Г ГЇГЁГ±Г»ГўГ ГҐГ¬ Гў ГґГ Г©Г«
             if (fileBuffer.size() >= BUFFER_SIZE)
             {
                 FlushFileBuffer();
@@ -44,7 +46,7 @@ public:
         }
     }
 
-    //пишет один байт в буфер
+    //ГЇГЁГёГҐГІ Г®Г¤ГЁГ­ ГЎГ Г©ГІ Гў ГЎГіГґГҐГ°
     void WriteByte(unsigned char b)
     {
         for (int i = 7; i >= 0; i--)
@@ -53,7 +55,7 @@ public:
         }
     }
 
-    //пишет данные буфера в файл
+    //ГЇГЁГёГҐГІ Г¤Г Г­Г­Г»ГҐ ГЎГіГґГҐГ°Г  Гў ГґГ Г©Г«
     void FlushFileBuffer()
     {
         if (!fileBuffer.empty())
@@ -73,18 +75,18 @@ public:
 class BitReader
 {
 private:
-    ifstream& in;// входной поток, откуда производится чтение данных
-    unsigned char currentByte;//текущий читаемый байт
-    int bitPos;//конкеретный бит в текущем байте
+    ifstream& in;// ГўГµГ®Г¤Г­Г®Г© ГЇГ®ГІГ®ГЄ, Г®ГІГЄГіГ¤Г  ГЇГ°Г®ГЁГ§ГўГ®Г¤ГЁГІГ±Гї Г·ГІГҐГ­ГЁГҐ Г¤Г Г­Г­Г»Гµ
+    unsigned char currentByte;//ГІГҐГЄГіГ№ГЁГ© Г·ГЁГІГ ГҐГ¬Г»Г© ГЎГ Г©ГІ
+    int bitPos;//ГЄГ®Г­ГЄГҐГ°ГҐГІГ­Г»Г© ГЎГЁГІ Гў ГІГҐГЄГіГ№ГҐГ¬ ГЎГ Г©ГІГҐ
 public:
     BitReader(std::ifstream& in) : in{ in }, currentByte{ 0 }, bitPos{ 8 }{}
    
-    //читает один бит
+    //Г·ГЁГІГ ГҐГІ Г®Г¤ГЁГ­ ГЎГЁГІ
     bool ReadBit()
     {
         if (bitPos >= 8)
         {
-            // Читаем новый байт
+            // Г—ГЁГІГ ГҐГ¬ Г­Г®ГўГ»Г© ГЎГ Г©ГІ
             if (!in.read(reinterpret_cast<char*>(&currentByte), 1))
             {
                 throw std::runtime_error("End of file");
@@ -97,7 +99,7 @@ public:
         return bit;
     }
 
-    //читает переменное число бит
+    //Г·ГЁГІГ ГҐГІ ГЇГҐГ°ГҐГ¬ГҐГ­Г­Г®ГҐ Г·ГЁГ±Г«Г® ГЎГЁГІ
     uint64_t ReadBits(int numBits)
     {
         if (numBits > 64)
@@ -112,11 +114,12 @@ public:
         return result;
     }
 
-    //читает один байт
+    //Г·ГЁГІГ ГҐГІ Г®Г¤ГЁГ­ ГЎГ Г©ГІ
     unsigned char ReadByte()
     {
         return static_cast<unsigned char>(ReadBits(8));
     }
 
 };
+
 
