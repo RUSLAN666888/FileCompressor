@@ -38,7 +38,9 @@
 - **Пользовательский интерфейс:** Нативная реализация на **Win32API**
 - **Среда разработки:** Visual Studio 2022
 
-**Файлы, на которых проводилось тестирование:** доступны в [Issue #1: test_files](https://github.com/RUSLAN666888/FileCompressor/issues/1#issue-3762034867).
+**Файлы, на которых проводилось тестирование:** доступны в [Issue #1: test_files](https://github.com/RUSLAN666888/FileCompressor/issues/1#issue-3762143846).
+
+**Документация:** 
 
 ## Сборка через Visual Studio
 1.  Клонируйте репозиторий:
